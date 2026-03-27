@@ -41,6 +41,7 @@ Lenses.io for VS Code brings the power of Lenses directly into your development 
 - **⚡ Topic Creation** — Create new Kafka topics with full schema validation and autocompletion
 - **⚡ Topic Insert Messages** — Insert messages into topics with schema validation and autocompletion
 - **⚡ Tree View Navigation** — Browse environments, topics, schemas, connectors, and IAM resources
+- **⚡ Topic actions from breadcrumbs** — Click the topic segment in the editor breadcrumb (or use **Lenses: Topic Actions** in the editor title) to run the same commands as the tree topic menu (data snapshot, configuration, insert messages, etc.)
 - **⚡ Real-time SQL Queries** — Query topics with Data Snapshot or stream live data in real-time
 - **⚡ Bookmarks & Saved Queries** — Bookmark topics and save SQL queries for quick access
 - **⚡ IAM Management** — Create and manage users, groups, roles, and service accounts
@@ -77,9 +78,13 @@ Click the **Lenses.io** icon in the Activity Bar, then click **Connect to Lenses
 <!-- ![Connect to Lenses](screenshots/login-flow.gif) -->
 
 Enter your:
-- **API URL** (e.g., `https://lenses.your-company.com/api`)
+- **URL** (e.g., `https://lenses.your-company.com`)
 - **Username**
 - **Password**
+
+Or use **Sign in with OAuth (browser)** (welcome link or command **Lenses: Sign in with OAuth (browser)**) when your Lenses instance exposes OAuth 2.0 (Authorization Server metadata at `/.well-known/oauth-authorization-server` on the same host as your API URL, optional dynamic client registration). The extension runs authorization code + PKCE, opens the system browser, handles the `vscode://` callback, and uses **Bearer** tokens for API requests. If your server does not support dynamic registration, set `lenses.oauthClientId` (and `lenses.oauthClientSecret` if required) in VS Code settings.
+
+**Local hq-backend + “Gullible” faux IdP (SAML / hq-ui dev only):** If you test SAML with a local API, the faux IdP is served by **the API process** at `http://127.0.0.1:8082/faux-idp/` (when `dev.fauxSSOEnabled` is true), not Angular on `:4200`. Point `auth.saml` metadata `SingleSignOnService` and `baseURL` at that host/port. Browser OAuth in the extension targets standard OAuth metadata on the API host, not this SAML path.
 
 ### 2. Explore the Tree View
 
@@ -130,11 +135,11 @@ Create new Kafka environments with a guided workflow directly from VS Code.
 
 1. Click the "+" icon on Environments or use Command Palette → **Lenses: Create Environment**
 2. YAML editor for environment profile with full schema validation
-3. Docker command for agent deployment (copy with one click)
-4. Automatic connection polling until agent connects
+3. After creation, deploy the agent: if your Lenses HQ is **local** (e.g. localhost or private network), you can run or paste a Docker command, **copy the agent key** for later, or skip. If you are connected to a **remote/cloud** HQ, the extension does not offer local Docker (it would not connect); you get a short explanation and can **copy the agent key** to deploy where your HQ can reach the agent.
+4. When using local Docker from the extension, connection polling runs until the agent connects (or you cancel)
 5. Transition to provisioning configuration once connected
 
-The guided workflow walks you through the entire process from environment definition to agent deployment, making it easy to spin up new Kafka environments without leaving your editor.
+The guided workflow walks you through environment definition and agent handoff; remote setups rely on copying the agent key into your own deployment process.
 
 ### Topic Creation
 
@@ -339,7 +344,7 @@ Configure the extension via VS Code Settings (`Cmd+,`).
 | `lenses.health.pollingInterval` | `30000` | Health check interval (ms) |
 | `lenses.health.consumerLagWarningThreshold` | `10000` | Consumer lag warning threshold |
 | `lenses.health.consumerLagErrorThreshold` | `100000` | Consumer lag error threshold |
-| `lenses.health.notifications.enabled` | `true` | Enable toast notifications |
+| `lenses.health.notifications.enabled` | `false` | Enable toast notifications |
 | `lenses.health.notifications.errorOnly` | `false` | Only show error notifications |
 | `lenses.health.notifications.cooldownMs` | `300000` | Notification cooldown (5 min) |
 
@@ -406,7 +411,7 @@ See the [CHANGELOG](CHANGELOG.md) for full release history.
 
 ### Authentication Fails
 
-1. Verify your API URL includes `/api` suffix (e.g., `https://lenses.company.com/api`)
+1. Verify your URL points to the correct Lenses instance (e.g., `https://lenses.company.com`). The `/api` suffix is added automatically.
 2. Check your username and password
 3. Ensure your Lenses instance is accessible from your network
 
