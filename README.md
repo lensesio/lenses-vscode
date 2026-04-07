@@ -45,9 +45,25 @@ Lenses.io for VS Code brings the power of Lenses directly into your development 
 - **⚡ Real-time SQL Queries** — Query topics with Data Snapshot or stream live data in real-time
 - **⚡ Bookmarks & Saved Queries** — Bookmark topics and save SQL queries for quick access
 - **⚡ IAM Management** — Create and manage users, groups, roles, and service accounts
-- **⚡ Configuration Comparison** — Compare topics, schemas, and connectors across environments
+- **⚡ Configuration Comparison** — Compare topics, schemas, groups, and roles across environments
 - **⚡ Health Monitoring** — View Kafka health issues in VS Code's Problems panel
 - **⚡ Global Search** — Instantly find any entity with fuzzy search (`Cmd+Shift+L`)
+- **⚡ Copilot agent tools** — After connecting, use GitHub Copilot **Agent** chat with tools enabled: reference `#lensesExtensionSql`, `#lensesExtensionDoc`, `#lensesExtensionListing`, `#lensesExtensionTopic`, `#lensesExtensionEnv`, `#lensesExtensionCompare`, `#lensesExtensionSearch`, or `#lensesExtensionOps` to run Lenses SQL, open entities and listings, drive topic/environment flows, diffs, search/index, and more (VS Code 1.96+).
+
+### GitHub Copilot / Language Model Tools
+
+Connect to Lenses first. In Copilot Chat, enable **agent** mode and extension tools (see [Use tools in chat](https://code.visualstudio.com/docs/copilot/chat/chat-tools)). Destructive actions (for example delete topic or environment) still show VS Code confirmation dialogs before executing. Authentication commands are not available as tools. Requires **VS Code 1.96+**.
+
+| Tool reference | Display name | What it does |
+|---|---|---|
+| `#lensesExtensionSql` | Run Lenses SQL | Opens the SQL editor for an environment and optionally runs a query immediately. Live streaming supported. |
+| `#lensesExtensionDoc` | Open Lenses document | Opens any virtual document in view or edit mode — IAM entities (User, Group, Role, ServiceAccount), Topics, Connectors, Schemas, Provisioning, EnvironmentConfig, EnvironmentCreate, TopicCreate, TopicConfig. |
+| `#lensesExtensionListing` | Open Lenses listing | Opens a listing panel: environments table, topics, IAM (users / groups / roles / service accounts), or the SQL Results panel. |
+| `#lensesExtensionTopic` | Topic action | Runs a topic-scoped action: data snapshot, live data, schema view, consumers, configuration, insert messages, compare across environments, open SQL tab, delete topic (with confirmation), create topic, add bookmark. |
+| `#lensesExtensionEnv` | Environment action | Switches the active environment, opens environment config or provisioning YAML, creates or deletes an environment (with confirmation), refreshes health. |
+| `#lensesExtensionCompare` | Lenses comparison | Opens comparison wizards (topic config, topic schema, groups, roles) or performs a direct diff between two named entities across environments. |
+| `#lensesExtensionSearch` | Lenses search & index | Opens the global search panel or drives search index actions (rebuild, start/stop/pause/resume indexing, validate, view stats). |
+| `#lensesExtensionOps` | Lenses misc command | Miscellaneous commands: refresh tree/bookmarks/notifications, stop SQL, clear results, apply/save changes, schema version actions, connector/consumer group ops, notification management. |
 
 ---
 
@@ -82,9 +98,7 @@ Enter your:
 - **Username**
 - **Password**
 
-Or use **Sign in with OAuth (browser)** (welcome link or command **Lenses: Sign in with OAuth (browser)**) when your Lenses instance exposes OAuth 2.0 (Authorization Server metadata at `/.well-known/oauth-authorization-server` on the same host as your API URL, optional dynamic client registration). The extension runs authorization code + PKCE, opens the system browser, handles the `vscode://` callback, and uses **Bearer** tokens for API requests. If your server does not support dynamic registration, set `lenses.oauthClientId` (and `lenses.oauthClientSecret` if required) in VS Code settings.
-
-**Local hq-backend + “Gullible” faux IdP (SAML / hq-ui dev only):** If you test SAML with a local API, the faux IdP is served by **the API process** at `http://127.0.0.1:8082/faux-idp/` (when `dev.fauxSSOEnabled` is true), not Angular on `:4200`. Point `auth.saml` metadata `SingleSignOnService` and `baseURL` at that host/port. Browser OAuth in the extension targets standard OAuth metadata on the API host, not this SAML path.
+Or use **Sign in with OAuth (browser)** when your Lenses instance supports OAuth 2.0. Click the welcome link or run **Lenses: Sign in with OAuth (browser)** from the Command Palette. The extension opens your system browser for authentication and handles the callback automatically. If your server does not support dynamic client registration, set `lenses.oauthClientId` in VS Code settings.
 
 ### 2. Explore the Tree View
 
@@ -96,7 +110,6 @@ Once connected, you'll see your Kafka infrastructure organized in a tree:
 - **Environments** — All connected Kafka environments with health status
 - **Topics** — Browse topics across all environments
 - **IAM** — Users, Groups, Roles, and Service Accounts
-- **Apps** — K2K connections and applications
 
 ### 3. Query Your First Topic
 
@@ -240,13 +253,10 @@ Compare entities across environments using VS Code's native diff editor.
 **Cross-environment comparisons:**
 - Topics configuration
 - Schemas (key and value)
-- Connectors
-- Consumer groups
 
 **Global entity comparisons:**
 - Groups
 - Roles
-- K2K Apps
 
 Access via Command Palette or right-click context menu.
 
@@ -302,17 +312,20 @@ Access all commands via the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`).
 | Command | Description |
 |---------|-------------|
 | `Lenses: Connect to Instance` | Connect to your Lenses.io API |
+| `Lenses: Sign in with OAuth (browser)` | Connect via OAuth 2.0 browser flow |
 | `Lenses: Search` | Open global fuzzy search |
 | `Lenses: Switch Environment` | Quick switch between environments |
 | `Lenses: Create Environment` | Create a new environment |
 | `Lenses: Create Topic` | Create a new Kafka topic |
-| `Lenses: Insert Messages` | Insert messages into a topic |
 | `Lenses: Save Query` | Save the current SQL query |
 | `Lenses: Compare Topic Configuration` | Compare topic configs across environments |
+| `Lenses: Compare Topic Schema` | Compare topic schemas across environments |
 | `Lenses: Compare Groups` | Compare groups side by side |
 | `Lenses: Compare Roles` | Compare roles side by side |
 | `Lenses: Refresh Health Status` | Refresh health monitoring data |
 | `Lenses: Open SQL Query` | Open a new SQL query editor |
+| `Lenses: Run SQL Query` | Execute the current SQL query |
+| `Lenses: Sign Out` | Disconnect from the Lenses instance |
 
 ---
 
@@ -336,6 +349,7 @@ Configure the extension via VS Code Settings (`Cmd+,`).
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `lenses.apiUrl` | `""` | Base URL for your Lenses.io API |
+| `lenses.oauthClientId` | `""` | OAuth client ID (when dynamic registration is unavailable) |
 
 ### Health Monitoring
 
@@ -344,9 +358,10 @@ Configure the extension via VS Code Settings (`Cmd+,`).
 | `lenses.health.pollingInterval` | `30000` | Health check interval (ms) |
 | `lenses.health.consumerLagWarningThreshold` | `10000` | Consumer lag warning threshold |
 | `lenses.health.consumerLagErrorThreshold` | `100000` | Consumer lag error threshold |
-| `lenses.health.notifications.enabled` | `false` | Enable toast notifications |
+| `lenses.health.notifications.enabled` | `false` | Enable toast notifications for critical issues |
 | `lenses.health.notifications.errorOnly` | `false` | Only show error notifications |
 | `lenses.health.notifications.cooldownMs` | `300000` | Notification cooldown (5 min) |
+| `lenses.health.notifications.showInStatusBar` | `true` | Show unread notification count in status bar |
 
 ### Health Checks
 
@@ -355,6 +370,30 @@ Configure the extension via VS Code Settings (`Cmd+,`).
 | `lenses.health.checks.consumerLag` | `true` | Monitor consumer lag |
 | `lenses.health.checks.connectorStatus` | `true` | Monitor connector status |
 | `lenses.health.checks.environmentStatus` | `true` | Monitor environment health |
+
+### SQL Queries
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `lenses.sql.liveData.maxRecords` | `5000` | Maximum records for live data streaming (0 = no limit) |
+| `lenses.sql.liveData.rateWarningEnabled` | `true` | Show warning when message rate is high |
+| `lenses.sql.acceptSelfSignedCerts` | `false` | Trust self-signed TLS certificates for SQL connections |
+
+### Search Index
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `lenses.search.index.enabledEntityTypes` | all types | Entity types to include in search index |
+| `lenses.search.index.autoIndexOnStartup` | `false` | Automatically start indexing when connected |
+| `lenses.search.cache.enabled` | `true` | Persist search index between sessions |
+| `lenses.search.cache.ttlHours` | `24` | Search index cache duration (hours) |
+
+### Other
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `lenses.yaml.schemaValidation` | `true` | YAML schema validation for provisioning files |
+| `lenses.telemetry.enabled` | `true` | Anonymous usage telemetry (respects VS Code global setting) |
 
 ---
 
@@ -376,14 +415,14 @@ Configure the extension via VS Code Settings (`Cmd+,`).
 
 | Extension Version | Compatible API Version |
 |-------------------|------------------------|
-| 6.1.x             | 6.1.y                  |
+| 6.2.x             | 6.2.y                  |
 
 The extension will check version compatibility when connecting and display a warning if there's a mismatch. While you can continue with mismatched versions, some features may not work correctly.
 
 **Example:**
-- Extension 6.1.3 ✅ API 6.1.5 (compatible)
-- Extension 6.1.3 ⚠️ API 6.0.2 (warning shown)
-- Extension 6.1.3 ⚠️ API 6.2.0 (warning shown)
+- Extension 6.2.0 ✅ API 6.2.1 (compatible)
+- Extension 6.2.0 ⚠️ API 6.1.5 (warning shown)
+- Extension 6.2.0 ⚠️ API 6.3.0 (warning shown)
 
 ---
 
@@ -391,11 +430,14 @@ The extension will check version compatibility when connecting and display a war
 
 ### Latest Release Highlights
 
+- **Environment Creation** — Create and provision new Kafka environments with guided workflow
+- **Topic Creation** — Create topics with full schema validation and autocompletion
+- **Topic Insert Messages** — Insert messages with schema validation and sample generation
 - **Bookmarks & Saved Queries** — Bookmark topics and save SQL queries for quick access
 - **Live Data Streaming** — Real-time message streaming from topics
-- **Native SQL Editor** — SQL queries use VS Code's native editor
-- **Dynamic Autocompletion** — Role actions, group members auto-suggested
-- **Improved Error Handling** — Detailed validation errors in Problems panel
+- **GitHub Copilot Integration** — Use Copilot agent tools to drive Lenses operations from chat
+- **OAuth Browser Authentication** — Sign in via OAuth 2.0 with your system browser
+- **Pin SQL Results** — Snapshot query results and compare across topics side-by-side
 
 See the [CHANGELOG](CHANGELOG.md) for full release history.
 
@@ -422,7 +464,6 @@ See the [CHANGELOG](CHANGELOG.md) for full release history.
 3. Try refreshing the node (right-click → Refresh)
 
 ---
-
 
 ## Support
 
