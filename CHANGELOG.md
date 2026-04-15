@@ -27,7 +27,7 @@ Initial public release of the Lenses.io for VS Code extension.
 - **Configuration Comparison** — Compare topic configs, schemas, groups, and roles across environments using VS Code's native diff editor
 - **Health Monitoring** — Consumer lag warnings, connector failure alerts, and environment connectivity issues surfaced in VS Code's Problems panel with configurable toast notifications
 - **Global Search** — Fuzzy search across all entities with filter syntax (`topic:name`, `user:name`, `@env:prod`), search history, starred searches, and configurable indexing
-- **Bookmarks & Saved Queries** — Bookmark topics and save SQL queries for quick access, synced with the Lenses.io web app
+- **Favourites & Saved Queries** — Favourite topics and save SQL queries for quick access, synced with the Lenses.io web app
 - **GitHub Copilot Integration** — 8 agent tools for running SQL, opening entities, managing topics and environments, comparisons, search, and more from Copilot Chat (VS Code 1.96+)
 - **OAuth Browser Authentication** — Sign in via OAuth 2.0 with your system browser, with automatic token management and refresh
 - **Topic Schema Management** — View and edit key/value schemas with version history, version comparison, and full editing capabilities

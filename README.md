@@ -35,7 +35,7 @@
 
 ## Key Features
 
-Lenses.io for VS Code brings the power of Lenses directly into your development environment. Query topics, manage IAM, compare configurations across environments, and monitor your Kafka infrastructure - all without leaving VS Code.
+[Lenses.io](https://lenses.io) for VS Code brings the power of Lenses directly into your development environment. Connect to multiple Kafka environments, create and query topics, insert messages, manage users, roles and permissions, search across different entities, compare configurations, and monitor your Kafka infrastructure - all without leaving VS Code.
 
 - **⚡ Environment Creation** — Create and provision new Kafka environments with guided workflow
 - **⚡ Topic Creation** — Create new Kafka topics with full schema validation and autocompletion
@@ -43,27 +43,12 @@ Lenses.io for VS Code brings the power of Lenses directly into your development 
 - **⚡ Tree View Navigation** — Browse environments, topics, schemas, connectors, and IAM resources
 - **⚡ Topic actions from breadcrumbs** — Click the topic segment in the editor breadcrumb (or use **Lenses: Topic Actions** in the editor title) to run the same commands as the tree topic menu (data snapshot, configuration, insert messages, etc.)
 - **⚡ Real-time SQL Queries** — Query topics with Data Snapshot or stream live data in real-time
-- **⚡ Bookmarks & Saved Queries** — Bookmark topics and save SQL queries for quick access
+- **⚡ Favourites & Saved Queries** — Favourite topics and save SQL queries for quick access
 - **⚡ IAM Management** — Create and manage users, groups, roles, and service accounts
 - **⚡ Configuration Comparison** — Compare topics, schemas, groups, and roles across environments
 - **⚡ Health Monitoring** — View Kafka health issues in VS Code's Problems panel
 - **⚡ Global Search** — Instantly find any entity with fuzzy search (`Cmd+Shift+L`)
-- **⚡ Copilot agent tools** — After connecting, use GitHub Copilot **Agent** chat with tools enabled: reference `#lensesExtensionSql`, `#lensesExtensionDoc`, `#lensesExtensionListing`, `#lensesExtensionTopic`, `#lensesExtensionEnv`, `#lensesExtensionCompare`, `#lensesExtensionSearch`, or `#lensesExtensionOps` to run Lenses SQL, open entities and listings, drive topic/environment flows, diffs, search/index, and more (VS Code 1.96+).
-
-### GitHub Copilot / Language Model Tools
-
-Connect to Lenses first. In Copilot Chat, enable **agent** mode and extension tools (see [Use tools in chat](https://code.visualstudio.com/docs/copilot/chat/chat-tools)). Destructive actions (for example delete topic or environment) still show VS Code confirmation dialogs before executing. Authentication commands are not available as tools. Requires **VS Code 1.96+**.
-
-| Tool reference | Display name | What it does |
-|---|---|---|
-| `#lensesExtensionSql` | Run Lenses SQL | Opens the SQL editor for an environment and optionally runs a query immediately. Live streaming supported. |
-| `#lensesExtensionDoc` | Open Lenses document | Opens any virtual document in view or edit mode — IAM entities (User, Group, Role, ServiceAccount), Topics, Connectors, Schemas, Provisioning, EnvironmentConfig, EnvironmentCreate, TopicCreate, TopicConfig. |
-| `#lensesExtensionListing` | Open Lenses listing | Opens a listing panel: environments table, topics, IAM (users / groups / roles / service accounts), or the SQL Results panel. |
-| `#lensesExtensionTopic` | Topic action | Runs a topic-scoped action: data snapshot, live data, schema view, consumers, configuration, insert messages, compare across environments, open SQL tab, delete topic (with confirmation), create topic, add bookmark. |
-| `#lensesExtensionEnv` | Environment action | Switches the active environment, opens environment config or provisioning YAML, creates or deletes an environment (with confirmation), refreshes health. |
-| `#lensesExtensionCompare` | Lenses comparison | Opens comparison wizards (topic config, topic schema, groups, roles) or performs a direct diff between two named entities across environments. |
-| `#lensesExtensionSearch` | Lenses search & index | Opens the global search panel or drives search index actions (rebuild, start/stop/pause/resume indexing, validate, view stats). |
-| `#lensesExtensionOps` | Lenses misc command | Miscellaneous commands: refresh tree/bookmarks/notifications, stop SQL, clear results, apply/save changes, schema version actions, connector/consumer group ops, notification management. |
+- **⚡ Copilot agent tools** — After connecting, use GitHub Copilot **Agent** chat with tools enabled: reference `#lensesExtensionSql`, `#lensesExtensionDoc`, `#lensesExtensionListing`, `#lensesExtensionTopic`, `#lensesExtensionEnv`, `#lensesExtensionCompare`, `#lensesExtensionSearch`, or `#lensesExtensionOps` to run Lenses SQL, open entities and listings, drive topic/environment flows, diffs, search/index, and more (required VS Code 1.96 or newer).
 
 ---
 
@@ -94,11 +79,11 @@ Click the **Lenses.io** icon in the Activity Bar, then click **Connect to Lenses
 <!-- ![Connect to Lenses](screenshots/login-flow.gif) -->
 
 Enter your:
-- **URL** (e.g., `https://lenses.your-company.com`)
+- **URL** (e.g., `https://lenses.your-company.com` or `http://localhost:9991`)
 - **Username**
 - **Password**
 
-Or use **Sign in with OAuth (browser)** when your Lenses instance supports OAuth 2.0. Click the welcome link or run **Lenses: Sign in with OAuth (browser)** from the Command Palette. The extension opens your system browser for authentication and handles the callback automatically. If your server does not support dynamic client registration, set `lenses.oauthClientId` in VS Code settings.
+Or use **Sign in with OAuth (browser)** when your Lenses instance supports OAuth 2.0 (supported from Lenses 6.2.0 or newer). Click the welcome link or run **Lenses: Sign in with OAuth (browser)** from the Command Palette. The extension opens your system browser for authentication and handles the callback automatically. If your server does not support dynamic client registration, set `lenses.oauthClientId` in VS Code settings.
 
 ### 2. Explore the Tree View
 
@@ -107,22 +92,26 @@ Once connected, you'll see your Kafka infrastructure organized in a tree:
 <!-- Screenshot: Tree view -->
 <!-- ![Tree View](screenshots/tree-view.png) -->
 
-- **Environments** — All connected Kafka environments with health status
-- **Topics** — Browse topics across all environments
-- **IAM** — Users, Groups, Roles, and Service Accounts
+- **Environments** — See all your connected Kafka environments with their health status at a glance
+- **All Topics** — Browse topics across every environment in one place
+- **IAM** — Manage users, groups, roles, and service accounts from a single tree
 
-### 3. Query Your First Topic
+---
 
-Right-click any topic and select **Data Snapshot** to open a SQL query:
+### GitHub Copilot / Language Model Tools
 
-<!-- Screenshot: SQL Query -->
-![SQL Query](screenshots/sql-query.png)
+Connect to Lenses first. In Copilot Chat, enable **agent** mode and extension tools (see [Use tools in chat](https://code.visualstudio.com/docs/copilot/agents/agent-tools)). Destructive actions (for example delete topic or environment) still show VS Code confirmation dialogs before executing. Authentication commands are not available as tools. Requires **VS Code 1.96+**.
 
-```sql
-SELECT * FROM my-topic LIMIT 100;
-```
-
-Press `Cmd+Enter` to run the query. Results appear in a split view below the editor.
+| Tool reference | Display name | What it does |
+|---|---|---|
+| `#lensesExtensionSql` | Run Lenses SQL | Opens the SQL editor for an environment and optionally runs a query immediately. Live streaming supported. |
+| `#lensesExtensionDoc` | Open Lenses document | Opens any virtual document in view or edit mode — IAM entities (User, Group, Role, ServiceAccount), Topics, Connectors, Schemas, Provisioning, EnvironmentConfig, EnvironmentCreate, TopicCreate, TopicConfig. |
+| `#lensesExtensionListing` | Open Lenses listing | Opens a listing panel: environments table, topics, IAM (users / groups / roles / service accounts), or the SQL Results panel. |
+| `#lensesExtensionTopic` | Topic action | Runs a topic-scoped action: data snapshot, live data, schema view, consumers, configuration, insert messages, compare across environments, open SQL tab, delete topic (with confirmation), create topic, add favourite. |
+| `#lensesExtensionEnv` | Environment action | Switches the active environment, opens environment config or provisioning YAML, creates or deletes an environment (with confirmation), refreshes health. |
+| `#lensesExtensionCompare` | Lenses comparison | Opens comparison wizards (topic config, topic schema, groups, roles) or performs a direct diff between two named entities across environments. |
+| `#lensesExtensionSearch` | Lenses search & index | Opens the global search panel or drives search index actions (rebuild, start/stop/pause/resume indexing, validate, view stats). |
+| `#lensesExtensionOps` | Lenses misc command | Miscellaneous commands: refresh tree/favourites/notifications, stop SQL, clear results, apply/save changes, schema version actions, connector/consumer group ops, notification management. |
 
 ---
 
@@ -130,14 +119,13 @@ Press `Cmd+Enter` to run the query. Results appear in a split view below the edi
 
 ### Environments Dashboard
 
-View all your Kafka environments with real-time health metrics and status indicators.
+View and search all your Kafka environments with status indicators.
 
 <!-- Screenshot: Environments listing -->
 ![Environments](screenshots/environments.png)
 
-- Green/red status indicators for agent connectivity
-- Real-time metrics (topics, partitions, messages)
-- Click to explore topics within an environment
+- Each environment shows a green or red indicator so you can see at a glance whether the Lenses agent is connected
+- Click any environment name to explore its topics, schemas, and connectors
 
 ### Environment Creation
 
@@ -160,10 +148,7 @@ Create new Kafka topics directly from VS Code with full schema validation and au
 
 ![Topic Creation](screenshots/topic-creation.png)
 
-- Click the "+" icon on the Topics node, or use Command Palette → **Lenses: Create Topic**
-- YAML editor with full schema validation and autocompletion
-- Configure partitions, replication, and all Kafka topic settings
-- Topic appears instantly in the tree after creation
+To create a new topic, just click the "+" icon next to the Topics section in the tree, or open the Command Palette and choose **Lenses: Create Topic**. You'll be taken to a YAML editor with instant schema validation and smart autocompletion to help you fill in details like partitions, replication, and any other Kafka topic settings you need. Once you hit "Create," your new topic will show up in the list right away—even before the backend has fully finished its setup. For best results, give it a moment before working with the topic, as it may take a little time (sometimes a few minutes) for everything to be ready behind the scenes.
 
 ### Topic Insert Messages
 
@@ -171,12 +156,7 @@ Insert messages directly into Kafka topics with full schema validation and autoc
 
 ![Topic Insert Messages](screenshots/topic-insert-messages.png)
 
-- Right-click any topic → **Insert Messages**
-- JSON editor with real-time validation against topic schema
-- Auto-generates sample messages based on AVRO/JSON schema
-- Supports key, value, and optional headers
-- Click the Play button to insert, then automatically view with SQL query
-- Errors highlighted inline with Problems panel integration
+To quickly add test messages to any topic, just right-click it and choose **Insert Messages**. You’ll get an easy-to-use JSON editor that checks your input in real time against the topic's schema. The editor can even generate sample messages for you, based on the topic’s AVRO or JSON schema. You can provide a key, value, and optional headers, then hit the Play button to send your messages. As soon as they’re inserted, you’ll jump straight to a pre-filled SQL query so you can view your new data right away. If there are any issues, errors are shown inline and connected to VS Code’s Problems panel, making fixes simple.
 
 ### Topics & SQL Queries
 
@@ -185,22 +165,32 @@ Browse and query topics with the integrated SQL editor.
 <!-- Screenshot: Topics listing -->
 ![Topics](screenshots/topics.png)
 
-**Data Snapshot** — Query historical data with SQL:
+**Data Snapshot** — Click directly on any topic or right-click and select **Data Snapshot** to query historical data with SQL:
+
+<!-- Screenshot: SQL Query -->
+![SQL Query](screenshots/sql-query.png)
+
 ```sql
-SELECT * FROM orders WHERE amount > 1000 LIMIT 50;
+SELECT *
+FROM my-topic
+WHERE _meta.offset >= LAST_OFFSET() - 10
+LIMIT 10;
 ```
 
-**Live Data** — Stream new messages in real-time:
-- Click "Live Data" on any topic
-- Press Play to start streaming
-- Only shows NEW messages as they arrive
-- Press Stop to end the stream
+Press `Cmd+Enter` to run the query or click the Play icon in the top right corner. Results appear in the bottom panel below the editor.
 
-Results display in a rich panel with:
-- **Results** — Data grid with all message fields
-- **Execution Details** — Query performance metrics
-- **Bad Records** — Deserialization errors
-- **Tune Query** — Optimize query settings
+**Live Data** — For real-time streaming, right-click on a topic and select **Live Data**. This opens a streaming SQL query panel, continuously showing new records as they arrive.
+
+```sql
+SELECT *
+FROM my-topic
+```
+
+- You can stop the stream whenever you like and resume later
+- Add SQL filters to narrow down what you see in real time
+- Keep an eye on high-throughput topics, as they can increase memory and CPU usage
+
+Results appear in an interactive data grid in the bottom panel, showing all message fields with sorting and filtering. You can control live data behavior with the `lenses.sql.liveData.maxRecords` and `lenses.sql.liveData.rateWarningEnabled` settings.
 
 ### Topic Configuration
 
@@ -209,10 +199,9 @@ Edit topic configurations directly in VS Code's native JSON editor.
 <!-- Screenshot: Topic Configuration -->
 ![Topic Config](screenshots/topic-config.png)
 
-- Side-by-side view: reference on left, editable config on right
-- JSON schema validation with inline error highlighting
-- Hover documentation for config properties
-- Only modified values are sent to the API
+- JSON schema validation highlights errors inline as you type
+- Hover over any property to see its documentation
+- When you apply changes, only the values you actually modified are sent to the API
 
 ### Topic Schema
 
@@ -221,10 +210,10 @@ View and manage topic schemas with version history.
 <!-- Screenshot: Topic Schema -->
 ![Topic Schema](screenshots/topic-schema.png)
 
-- Key and Value schemas
-- Version dropdown for history
-- Schema comparison between versions
-- Full editing capabilities
+- View both key and value schemas for any topic
+- Browse through previous versions using the version dropdown
+- Compare any two schema versions side by side to see what changed
+- Edit schemas directly and apply updates from VS Code
 
 ### IAM Management
 
@@ -233,15 +222,12 @@ Manage identity and access directly from VS Code.
 <!-- Screenshot: IAM -->
 ![IAM Users](screenshots/iam-users.png)
 
-- **Users** — Create, view, and delete users
-- **Groups** — Organize users into groups with role assignments
-- **Roles** — Define permissions with fine-grained actions
-- **Service Accounts** — Manage API access credentials
+- **Users** — Create, view, and delete user accounts for your Lenses instance
+- **Groups** — Organize users into groups and assign roles to control what each group can access
+- **Roles** — Define fine-grained permissions that specify exactly which actions are allowed on which resources
+- **Service Accounts** — Manage credentials for API and programmatic access
 
-Features include:
-- JSON editor with schema validation
-- Autocompletion for role names and permissions
-- Real-time updates across all open tabs
+All IAM entities open in a JSON editor with full schema validation, so you get instant feedback if something is misconfigured. Role names and permissions autocomplete as you type, and changes you make are reflected in real time across any open tabs.
 
 ### Configuration Comparison
 
@@ -250,15 +236,9 @@ Compare entities across environments using VS Code's native diff editor.
 <!-- Screenshot: Diff view -->
 ![Config Comparison](screenshots/diff-view.png)
 
-**Cross-environment comparisons:**
-- Topics configuration
-- Schemas (key and value)
+You can compare topic configurations and schemas (both key and value) across different environments to spot differences between staging and production. For global entities like groups and roles, compare any two side by side regardless of environment.
 
-**Global entity comparisons:**
-- Groups
-- Roles
-
-Access via Command Palette or right-click context menu.
+Start a comparison from the Command Palette or by right-clicking an entity in the tree view.
 
 ### Health Monitoring
 
@@ -267,41 +247,31 @@ Monitor Kafka infrastructure health in VS Code's Problems panel.
 <!-- Screenshot: Health monitoring -->
 ![Health Monitoring](screenshots/health-monitoring.png)
 
-- Consumer lag warnings and errors
-- Connector failure alerts
-- Environment connectivity issues
-- Real-time toast notifications for critical issues
+- Warns you when consumer lag crosses your configured thresholds, so you can catch slow consumers early
+- Alerts you when a connector fails or enters an unhealthy state
+- Flags environment connectivity issues if an agent goes offline
+- Optionally shows real-time toast notifications for critical issues so you don't miss anything while coding
 
-### Bookmarks & Saved Queries
+### Favourites & Saved Queries
 
 Keep your frequently accessed topics and queries at your fingertips.
 
-![Bookmarks](screenshots/bookmarks.png)
+![Favourites](screenshots/favourites.png)
 
-**Topic Bookmarks:**
-- Right-click any topic → **Add to Bookmarks**
-- Click a bookmarked topic to open a pre-configured SQL query
-- Remove bookmarks with a single click
+**Topic Favourites** — Right-click any topic and choose **Add to Favourites** to pin it for quick access. Clicking a favourited topic opens a pre-configured SQL query right away, and you can remove favourites with a single click when you no longer need them.
 
-**Saved Queries:**
-- Save any SQL query with `Cmd+Shift+P` → **Lenses: Save Query**
-- Click the bookmark icon in the SQL editor
-- Click a saved query to open it in a new tab
-- Rename or delete saved queries from the context menu
+**Saved Queries** — Save any SQL query you want to reuse by pressing `Cmd+Shift+P` → **Lenses: Save Query**, or click the star icon in the SQL editor. Your saved queries appear in the sidebar so you can open them in a new tab with one click, and rename or delete them from the context menu.
 
-All bookmarks and saved queries sync with your Lenses.io web app for seamless workflow across platforms.
+All favourites and saved queries sync with your Lenses.io web app, so your workflow carries over seamlessly between platforms.
 
 ### Global Search
 
-Find any entity instantly with fuzzy search.
+Find any entity instantly with fuzzy search (requires initial indexing; very large environments may take longer to index). You can adjust search behavior, result limits, and other indexing options in the extension's settings.
 
 <!-- Screenshot: Global search -->
 <!-- ![Global Search](screenshots/global-search.gif) -->
 
-- Press `Cmd+Shift+L` (`Ctrl+Shift+L` on Windows/Linux)
-- Type to search across environments, topics, users, and more
-- Results ranked by relevance
-- Click to navigate directly to the entity
+Press `Cmd+Shift+L` (`Ctrl+Shift+L` on Windows/Linux) to open the search panel, then start typing. Results span all your environments, topics, users, and other entities, ranked by relevance. Click any result to navigate directly to that entity in the tree or open its document.
 
 ---
 
@@ -399,9 +369,9 @@ Configure the extension via VS Code Settings (`Cmd+,`).
 
 ## Requirements
 
-- **VS Code** 1.80.0 or higher
-- **Lenses.io** instance with API access
-- Network connectivity to your Lenses API
+- **VS Code** version 1.96.0 or higher
+- A running **Lenses.io** instance with API access enabled
+- Network connectivity between your machine and the Lenses API
 
 ### Recommended Extensions
 
@@ -433,7 +403,7 @@ The extension will check version compatibility when connecting and display a war
 - **Environment Creation** — Create and provision new Kafka environments with guided workflow
 - **Topic Creation** — Create topics with full schema validation and autocompletion
 - **Topic Insert Messages** — Insert messages with schema validation and sample generation
-- **Bookmarks & Saved Queries** — Bookmark topics and save SQL queries for quick access
+- **Favourites & Saved Queries** — Favourite topics and save SQL queries for quick access
 - **Live Data Streaming** — Real-time message streaming from topics
 - **GitHub Copilot Integration** — Use Copilot agent tools to drive Lenses operations from chat
 - **OAuth Browser Authentication** — Sign in via OAuth 2.0 with your system browser
@@ -447,7 +417,7 @@ See the [CHANGELOG](CHANGELOG.md) for full release history.
 
 ### Extension Doesn't Load
 
-1. Ensure VS Code is version 1.80.0 or higher
+1. Ensure VS Code is version 1.96.0 or higher
 2. Check the Output panel (`View → Output`) and select "Lenses.io" from the dropdown
 3. Try reloading the window (`Cmd+Shift+P` → "Developer: Reload Window")
 
