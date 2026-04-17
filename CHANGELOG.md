@@ -5,6 +5,47 @@ All notable changes to the Lenses.io for VS Code extension will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.1] - 2026-04-17
+
+### Features
+
+- **Live Streaming in Pinned SQL Results** — Pinning a running live-data query now transfers the active streaming session to the pinned tab, so records keep flowing while the bottom SQL Results view resets to idle. The pinned tab shows a LIVE/STOPPED indicator, a Stop Query button, and a Go-to-Query button. Stopping or closing from any surface synchronizes all controls.
+- **Actionable Health Notifications** — Health notifications now include remediation guidance: consumer lag documents suggest checking consumer health and scaling, connector documents include error traces and restart steps, environment documents suggest checking agent status. Context-specific CodeLens actions (e.g. "Restart Connector", "Open SQL Query") appear directly in health documents.
+- **Quick Fix Actions in Problems Panel** — The lightbulb in the Problems panel now shows useful quick fixes: consumer lag issues offer "View Consumer Details" and "Open SQL Query"; failed connectors offer "Restart Connector" and "View Connector Details"; disconnected environments offer "View Environment Status".
+- **Full Topic Context Menu on Favourited Topics** — Favourited topics now display the same context menu as topics under each environment, including Data Snapshot, Live Data, Schema, Consumers, Configuration, Insert Messages, Compare Across Environments, and Delete Topic.
+- **Context-aware Favourites** — The topic menu dynamically shows "Remove from Favourites" or "Add to Favourites" based on the current state.
+
+### Improvements
+
+- Consistent topic menu ordering across right-click and quick pick menus
+- Severity breakdown in the Notifications sidebar (e.g. "4 errors, 10 warnings")
+- Click any notification to navigate directly to the health document
+- Inline View Details button on every active notification for one-click navigation
+- Green SQL Run Query button for better visibility in the editor title bar
+- User-friendly API error messages extracted from response bodies instead of generic HTTP status codes
+
+### Fixed
+
+- README screenshots now display correctly on the VS Code Marketplace
+- Stale active notifications no longer accumulate after extension restart
+- NaN no longer displayed in consumer lag health documents when data is missing
+- OAuth sessions no longer cleared by proxied 401 responses from downstream environments
+- Stale session data (notification badges, permission cache, search history) cleaned up properly on sign-out
+- Environment filter correctly applied when opening Topics from the Environments listing
+- Telemetry extension ID and version reporting corrected
+
+### Security
+
+- SSRF origin validation for SSE connections
+- Content Security Policy added to Search panels
+- innerHTML replaced with safe DOM APIs to prevent XSS
+- CSPRNG nonce generation for webview scripts
+- Tighter CSP img-src directive (wildcard removed)
+- OAuth PKCE verifier stored in SecretStorage
+- Infrastructure names hashed in telemetry before transmission
+
+---
+
 ## [6.2.0] - 2026-04-07
 
 Initial public release of the Lenses.io for VS Code extension.
