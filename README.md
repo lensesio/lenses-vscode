@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=lensesio.lenses-vscode">
-    <img src="https://img.shields.io/visual-studio-marketplace/v/lensesio.lenses-vscode?label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="VS Code Marketplace Version">
-  </a>
   <a href="https://open-vsx.org/extension/lensesio/lenses-vscode">
-    <img src="https://img.shields.io/open-vsx/v/lensesio/lenses-vscode?label=Open%20VSX" alt="Open VSX Version">
+    <img src="https://img.shields.io/open-vsx/v/lensesio/lenses-vscode?label=Open%20VSX&logo=eclipse-ide" alt="Open VSX Version">
   </a>
   <a href="https://marketplace.visualstudio.com/items?itemName=lensesio.lenses-vscode">
-    <img src="https://img.shields.io/visual-studio-marketplace/d/lensesio.lenses-vscode?label=Downloads" alt="Downloads">
+    <img src="https://img.shields.io/badge/VS%20Code%20Marketplace-lensesio.lenses--vscode-blue?logo=visual-studio-code" alt="VS Code Marketplace">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=lensesio.lenses-vscode&ssr=false#review-details">
-    <img src="https://img.shields.io/visual-studio-marketplace/r/lensesio.lenses-vscode?label=Rating" alt="Rating">
+  <a href="https://github.com/lensesio/lenses-vscode">
+    <img src="https://img.shields.io/github/stars/lensesio/lenses-vscode?style=flat&label=Stars&logo=github" alt="GitHub Stars">
+  </a>
+  <a href="https://github.com/lensesio/lenses-vscode/issues">
+    <img src="https://img.shields.io/github/issues/lensesio/lenses-vscode?label=Issues&logo=github" alt="GitHub Issues">
   </a>
 </p>
 
@@ -40,6 +40,7 @@
 - **⚡ Environment Creation** — Create and provision new Kafka environments with guided workflow
 - **⚡ Topic Creation** — Create new Kafka topics with full schema validation and autocompletion
 - **⚡ Topic Insert Messages** — Insert messages into topics with schema validation and autocompletion
+- **⚡ Schema Registry** — Browse Schema Registry subjects per environment, view schemas in VS Code's native JSON editor, and register new subjects with full schema validation
 - **⚡ Tree View Navigation** — Browse environments, topics, schemas, connectors, and IAM resources
 - **⚡ Topic actions from breadcrumbs** — Click the topic segment in the editor breadcrumb (or use **Lenses: Topic Actions** in the editor title) to run the same commands as the tree topic menu (data snapshot, configuration, insert messages, etc.)
 - **⚡ Real-time SQL Queries** — Query topics with Data Snapshot or stream live data in real-time
@@ -48,7 +49,7 @@
 - **⚡ Configuration Comparison** — Compare topics, schemas, groups, and roles across environments
 - **⚡ Health Monitoring** — View Kafka health issues in VS Code's Problems panel
 - **⚡ Global Search** — Instantly find any entity with fuzzy search (`Cmd+Shift+L`)
-- **⚡ Copilot agent tools** — After connecting, use GitHub Copilot **Agent** chat with tools enabled: reference `#lensesExtensionSql`, `#lensesExtensionDoc`, `#lensesExtensionListing`, `#lensesExtensionTopic`, `#lensesExtensionEnv`, `#lensesExtensionCompare`, `#lensesExtensionSearch`, or `#lensesExtensionOps` to run Lenses SQL, open entities and listings, drive topic/environment flows, diffs, search/index, and more (required VS Code 1.96 or newer).
+- **⚡ Copilot agent tools** — After connecting, use GitHub Copilot **Agent** chat with tools enabled: reference `#lensesExtensionSql`, `#lensesExtensionDoc`, `#lensesExtensionListing`, `#lensesExtensionTopic`, `#lensesExtensionEnv`, `#lensesExtensionCompare`, `#lensesExtensionSearch`, `#lensesExtensionOps`, or `#lensesExtensionSchema` to run Lenses SQL, open entities and listings, drive topic/environment/schema registry flows, diffs, search/index, and more (required VS Code 1.96 or newer).
 
 ---
 
@@ -106,12 +107,13 @@ Connect to Lenses first. In Copilot Chat, enable **agent** mode and extension to
 |---|---|---|
 | `#lensesExtensionSql` | Run Lenses SQL | Opens the SQL editor for an environment and optionally runs a query immediately. Live streaming supported. |
 | `#lensesExtensionDoc` | Open Lenses document | Opens any virtual document in view or edit mode — IAM entities (User, Group, Role, ServiceAccount), Topics, Connectors, Schemas, Provisioning, EnvironmentConfig, EnvironmentCreate, TopicCreate, TopicConfig. |
-| `#lensesExtensionListing` | Open Lenses listing | Opens a listing panel: environments table, topics, IAM (users / groups / roles / service accounts), or the SQL Results panel. |
+| `#lensesExtensionListing` | Open Lenses listing | Opens a listing panel: environments table, topics, schema registry, IAM (users / groups / roles / service accounts), or the SQL Results panel. |
 | `#lensesExtensionTopic` | Topic action | Runs a topic-scoped action: data snapshot, live data, schema view, consumers, configuration, insert messages, compare across environments, open SQL tab, delete topic (with confirmation), create topic, add favourite. |
 | `#lensesExtensionEnv` | Environment action | Switches the active environment, opens environment config or provisioning YAML, creates or deletes an environment (with confirmation), refreshes health. |
 | `#lensesExtensionCompare` | Lenses comparison | Opens comparison wizards (topic config, topic schema, groups, roles) or performs a direct diff between two named entities across environments. |
 | `#lensesExtensionSearch` | Lenses search & index | Opens the global search panel or drives search index actions (rebuild, start/stop/pause/resume indexing, validate, view stats). |
 | `#lensesExtensionOps` | Lenses misc command | Miscellaneous commands: refresh tree/favourites/notifications, stop SQL, clear results, apply/save changes, schema version actions, connector/consumer group ops, notification management. |
+| `#lensesExtensionSchema` | Schema Registry action | Manages schema registry subjects: open, edit, create, delete subject or version, version history, cross-environment comparison, favourites. Specify both versions or both environments for instant diffs without prompts. |
 
 ---
 
@@ -214,6 +216,19 @@ View and manage topic schemas with version history.
 - Browse through previous versions using the version dropdown
 - Compare any two schema versions side by side to see what changed
 - Edit schemas directly and apply updates from VS Code
+
+### Schema Registry
+
+Browse and manage Schema Registry subjects for each environment, right next to its Topics node in the tree.
+
+![Schema Registry](screenshots/schema-registry-details.png)
+
+- Click the **Schema Registry** node under any environment to load every subject; the inline icons let you create a new subject (`+`), refresh the list, or open a full listing webview (`$(table)`).
+- Click any subject to view its latest schema directly in VS Code's native JSON editor — no extra panels, full syntax highlighting, foldable AVRO/JSON/Protobuf payloads. Inline CodeLens actions appear above the document to edit, refresh, browse version history, compare versions or environments, and toggle favourites.
+- Click the **+** icon (or run **Lenses: Create Schema Subject**) to open a JSON-Schema-validated template document. Fill in `subjectName`, `format` (AVRO / JSON / PROTOBUF), and the `schema` itself; the editor autocompletes valid options and highlights mistakes inline. Saving the document registers the subject through the Lenses API and immediately opens it for review.
+- Browse version history for any subject and compare versions side by side using VS Code's native diff editor. Cross-environment comparison lets you spot schema drift between staging and production.
+- Delete subjects or individual versions from the tree context menu with confirmation prompts.
+- Schema Registry subjects are included in the global search index — press `Cmd+Shift+L` to find any subject instantly across environments.
 
 ### IAM Management
 
@@ -398,16 +413,19 @@ The extension will check version compatibility when connecting and display a war
 
 ## What's New
 
-### Latest Release Highlights
+### 6.2.2 — Schema Registry & Community Edition
 
-- **Environment Creation** — Create and provision new Kafka environments with guided workflow
-- **Topic Creation** — Create topics with full schema validation and autocompletion
-- **Topic Insert Messages** — Insert messages with schema validation and sample generation
-- **Favourites & Saved Queries** — Favourite topics and save SQL queries for quick access
-- **Live Data Streaming** — Real-time message streaming from topics
-- **GitHub Copilot Integration** — Use Copilot agent tools to drive Lenses operations from chat
-- **OAuth Browser Authentication** — Sign in via OAuth 2.0 with your system browser
-- **Pin SQL Results** — Snapshot query results and compare across topics side-by-side
+- **Schema Registry** — Full subject management: browse, view, create, edit, delete, version history, cross-environment comparison, and CodeLens inline actions
+- **Schema Registry in Copilot** — New `#lensesExtensionSchema` tool for managing schemas from GitHub Copilot Chat with direct-diff support
+- **Schema Registry in Global Search** — Subjects are now indexed and searchable alongside topics and other entities
+- **One-click Community Edition** — Install Lenses Community Edition via Docker directly from the welcome screen
+
+### Previous Highlights (6.2.1)
+
+- **Live Streaming in Pinned SQL Results** — Pinning a live-data query transfers the streaming session to the pinned tab
+- **Actionable Health Notifications** — Remediation guidance and CodeLens actions in health documents
+- **Quick Fix Actions in Problems Panel** — Lightbulb quick fixes for consumer lag, failed connectors, and disconnected environments
+- **Full Topic Context Menu on Favourites** — Favourited topics now show the complete topic action menu
 
 See the [CHANGELOG](CHANGELOG.md) for full release history.
 

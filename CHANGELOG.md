@@ -5,6 +5,32 @@ All notable changes to the Lenses.io for VS Code extension will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.2] - 2026-04-30
+
+### Features
+
+- **Schema Registry** — Full schema registry management added to the extension: browse subjects per environment, view schemas in VS Code's native JSON editor, create new subjects with schema validation and autocompletion, edit existing schemas, delete subjects and individual versions, and toggle favourites. The tree view shows a Schema Registry node under each environment with inline create, refresh, and listing actions.
+- **Schema Registry CodeLens** — Opening a Schema Registry subject shows inline actions directly above the document: navigate back to the Schema Registry listing, edit the schema, refresh, browse version history, compare versions, compare across environments, and toggle favourites. Version-related actions appear only when a subject has multiple versions.
+- **Schema Registry Version History & Comparison** — Browse all versions of a schema subject and compare any two versions side by side using VS Code's native diff editor. Cross-environment comparison lets you diff the same subject between staging and production.
+- **Schema Registry in Global Search** — Schema Registry subjects are now indexed and searchable in the global search panel. The post-indexing summary view shows schema counts alongside topics and other entity types.
+- **Schema Registry Copilot Tool** — New `#lensesExtensionSchema` language model tool for managing schema registry subjects from Copilot Chat. Supports direct-diff comparison by specifying both versions or both environments without interactive prompts.
+- **One-click Community Edition Install** — The welcome screen now offers a one-click Docker install for Lenses Community Edition, letting new users get started without leaving VS Code.
+
+### Improvements
+
+- Schema Registry listing refreshes optimistically after create/delete operations
+- Scoped tree refresh for Schema Registry nodes (avoids full tree reload)
+- Schema registry references added across search UI and documentation
+
+### Fixed
+
+- **Schema Registry cross-environment comparison** — The generic "Compare" CodeLens for Schema entities now correctly routes to the `schemaSubject` comparison flow instead of `topicSchema`.
+- **IAM listing panels crash** — Fixed "cannot read configuration" error when opening IAM listing panels.
+- **Search help buttons unresponsive** — Fixed search help buttons not responding to clicks and quick pick icons being misaligned.
+- Unused telemetry wired correctly for schema registry operations; placeholder code removed.
+
+---
+
 ## [6.2.1] - 2026-04-17
 
 ### Features
@@ -54,7 +80,7 @@ Initial public release of the Lenses.io for VS Code extension.
 
 - Manage your entire Apache Kafka infrastructure from VS Code: environments, topics, IAM, schemas, and connectors
 - Query topics with SQL using VS Code's native editor, with Data Snapshot and Live Data streaming
-- Full GitHub Copilot integration with 8 agent tools for natural language Kafka operations
+- Full GitHub Copilot integration with 9 agent tools for natural language Kafka operations
 - OAuth 2.0 browser authentication alongside traditional username/password
 
 ### Features
@@ -69,7 +95,7 @@ Initial public release of the Lenses.io for VS Code extension.
 - **Health Monitoring** — Consumer lag warnings, connector failure alerts, and environment connectivity issues surfaced in VS Code's Problems panel with configurable toast notifications
 - **Global Search** — Fuzzy search across all entities with filter syntax (`topic:name`, `user:name`, `@env:prod`), search history, starred searches, and configurable indexing
 - **Favourites & Saved Queries** — Favourite topics and save SQL queries for quick access, synced with the Lenses.io web app
-- **GitHub Copilot Integration** — 8 agent tools for running SQL, opening entities, managing topics and environments, comparisons, search, and more from Copilot Chat (VS Code 1.96+)
+- **GitHub Copilot Integration** — 9 agent tools for running SQL, opening entities, managing topics, environments, and schema registry subjects, comparisons, search, and more from Copilot Chat (VS Code 1.96+)
 - **OAuth Browser Authentication** — Sign in via OAuth 2.0 with your system browser, with automatic token management and refresh
 - **Topic Schema Management** — View and edit key/value schemas with version history, version comparison, and full editing capabilities
 - **Tree View Navigation** — Browse environments, topics, schemas, connectors, and IAM resources with status indicators, breadcrumb actions, and auto-reveal
