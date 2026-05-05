@@ -24,10 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **Schema Registry cross-environment comparison** — The generic "Compare" CodeLens for Schema entities now correctly routes to the `schemaSubject` comparison flow instead of `topicSchema`.
+- **Schema Registry cross-environment comparison** — The "Compare" CodeLens on Schema Registry subjects now correctly opens the schema comparison instead of the topic schema comparison.
 - **IAM listing panels crash** — Fixed "cannot read configuration" error when opening IAM listing panels.
 - **Search help buttons unresponsive** — Fixed search help buttons not responding to clicks and quick pick icons being misaligned.
-- Unused telemetry wired correctly for schema registry operations; placeholder code removed.
+- Telemetry events now fire correctly for schema registry operations.
 
 ---
 
