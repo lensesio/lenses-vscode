@@ -5,6 +5,16 @@ All notable changes to the Lenses.io for VS Code extension will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [6.2.4] - 2026-05-07
+
+### Features
+
+- **Deep Link "Open in VS Code"** — The HQ UI now includes "Open in VS Code" buttons on Topic Data, Schema Registry, SQL Studio, and IAM screens. Clicking the button opens the VS Code extension with full context pre-populated: topics open a data snapshot query and auto-run it, schemas open the subject at the selected version, SQL queries transfer with environment and query text, and IAM entities open their document directly. The extension sidebar reveals the relevant tree node for immediate orientation.
+
+---
+
 ## [6.2.3] - 2026-05-04
 
 ### Fixed
