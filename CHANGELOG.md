@@ -5,6 +5,34 @@ All notable changes to the Lenses.io for VS Code extension will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.5] - 2026-06-29
+### Features
+
+- **Kafka Connectors** — Full Kafka Connect connector management directly from VS Code. View, edit, create, start, stop, pause, resume, restart, and delete connectors with guided workflows. Dual tree navigation (per-environment and top-level Apps group), status-aware icons, listing panel with filtering, cross-environment comparison, task management, and global search support. Rich IntelliSense for connector creation with plugin autocompletion, class-specific property suggestions, and real-time validation.
+
+- **Open in HQ** — One-click navigation from the VS Code extension to the same entity in the Lenses HQ web UI. Available from tree context menus, editor menus, listing panels, and the Command Palette for topics, schemas, environments, IAM entities, and SQL queries. SQL editor content is carried over automatically.
+
+- **Lenses HQ Link** — A new "Lenses HQ" entry in the sidebar tree opens the HQ web dashboard directly in your browser.
+
+- **Unified YAML Format** — All entity documents (IAM, Topics, Schema Registry, Connectors) now display and edit as YAML instead of JSON, with schema validation and autocompletion via the Red Hat YAML extension (recommended on first use).
+
+### Improvements
+
+- **Post-edit Refresh** — After applying changes, listing panels, detail views, and the tree now consistently reflect the latest state across all entity types.
+
+- **Cleaner Save Experience** — Virtual documents no longer show misleading "unsaved changes" indicators or "Save changes?" prompts on close. The "Apply Changes" button remains the sole path to API mutations.
+
+- **Unified Entity Menus** — All action menus (topics, connectors, schemas, environments, IAM) now have consistent grouping, separators, and descriptions.
+
+### Fixed
+
+- Auto-save no longer reformats or corrupts YAML entity documents
+- Connector edit-mode autocompletion now works correctly with YAML documents
+- Provisioning configuration saves now work reliably
+- Health monitoring now works correctly for all authentication methods
+- IAM user edit schema loads correctly on startup when auto-reconnecting
+- Various listing panel rendering and navigation fixes
+
 ## [6.2.4] - 2026-05-07
 
 ### Features

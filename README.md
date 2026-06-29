@@ -41,6 +41,7 @@
 - **⚡ Topic Creation** — Create new Kafka topics with full schema validation and autocompletion
 - **⚡ Topic Insert Messages** — Insert messages into topics with schema validation and autocompletion
 - **⚡ Schema Registry** — Browse Schema Registry subjects per environment, view schemas in VS Code's native JSON editor, and register new subjects with full schema validation
+- **⚡ Kafka Connectors** — Full connector lifecycle management: create, view, edit, start, stop, pause, resume, restart, and delete connectors with YAML-based configuration and connector-class schema validation
 - **⚡ Tree View Navigation** — Browse environments, topics, schemas, connectors, and IAM resources
 - **⚡ Topic actions from breadcrumbs** — Click the topic segment in the editor breadcrumb (or use **Lenses: Topic Actions** in the editor title) to run the same commands as the tree topic menu (data snapshot, configuration, insert messages, etc.)
 - **⚡ Real-time SQL Queries** — Query topics with Data Snapshot or stream live data in real-time
@@ -229,6 +230,19 @@ Browse and manage Schema Registry subjects for each environment, right next to i
 - Browse version history for any subject and compare versions side by side using VS Code's native diff editor. Cross-environment comparison lets you spot schema drift between staging and production.
 - Delete subjects or individual versions from the tree context menu with confirmation prompts.
 - Schema Registry subjects are included in the global search index — press `Cmd+Shift+L` to find any subject instantly across environments.
+
+### Kafka Connectors
+
+Full Kafka Connect connector management directly from VS Code.
+
+- **Dual tree navigation** — Access connectors both under each environment (Environments > {env} > Connectors) and via the top-level "Apps" group (Apps > Kafka Connectors), which filters environments by those with active Connect clusters and groups connectors by cluster.
+- **View & edit** — View connector details as JSON; edit configuration as YAML using the declarative ConnectorsAsCode API. Status-aware icons (green=running, yellow=paused, red=failed) at a glance.
+- **Create connectors** — YAML-based creation with JSON Schema validation for required fields and connector-class-specific schemas fetched from the API, matching the hq-ui creation experience.
+- **Full lifecycle** — Start, stop, pause, resume, restart, and delete connectors with confirmation dialogs. Available from tree context menus, CodeLens, listing panel bulk actions, and Copilot/chat agents.
+- **Listing panel** — Webview panel with table view, status filtering, and bulk lifecycle actions for managing connectors at scale.
+- **Task management** — Restart individual connector tasks from the tree view.
+- **Cross-environment diff** — Compare connector configurations between environments using VS Code's native diff editor.
+- **Health monitoring** — Failed and paused connectors surface in VS Code's Problems panel automatically.
 
 ### IAM Management
 
